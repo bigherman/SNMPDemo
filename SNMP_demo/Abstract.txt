@@ -1,0 +1,31 @@
+This program is an SNMP Agent demo example. It shows how to 
+use a Simple Network Management Protocol to control the
+embedded system.
+
+Use this example to connect MCBSTM32C Board to a LAN with DHCP
+server (most LANs have this). This example will configure the 
+LAN network parameters automatically using a DHCP protocol.
+
+You may connect MCBSTM32C Board to PC directly over a crosslink
+network cable. In this case configure a PC to use a static 
+IP address 192.168.0.1
+
+If after a timeout of 5 seconds DHCP did not obtain an IP address,
+this example will use a static IP address 192.168.0.100
+
+To test this example, run windows application 'SNMPTest.exe' and
+type in the ip address of your Embedded SNMP Agent and click
+'Connect'. When connected, you can change the LCD text on
+the target, control the onboard LED diodes and monitor the
+state of onboard pushbuttons.
+
+The SNMP_demo example is available for several targets:
+
+MCBSTM32C:      Standalone application for Keil MCBSTM32C Board.
+                Program code is loaded into on-chip flash.
+
+MCBSTM32C Debug:Standalone Debug application. Debug level configured
+                in Net_Debug.c debug configuration file.
+                Connect a serial cable to RS232 COM port to view
+                output messages using HyperTerminal at 115200 baud,
+                8-bits, no parity, 1 stop bit, XON/XOFF.
