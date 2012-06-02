@@ -63,6 +63,27 @@ static void init () {
   /* Setup and enable the SysTick timer for 100ms. */
   SysTick->LOAD = (SystemFrequency / 10) - 1;
   SysTick->CTRL = 0x05;
+
+  /******************************************************************************/
+  /* Initialises the Analog/Digital converter */
+  /* PC4 (ADC Channel14) is used as analog input */
+  /******************************************************************************/
+  RCC->APB2ENR |= (1<<4); /* enable clock for GPIOC */
+  GPIOC->CRL &= 0xFFF0FFFF; /* Configure ADC.14 input. */
+  RCC->APB2ENR |= (1<<9); /* enable clock for ADC1 */
+  ADC1->SQR1 = 0x00000000; /* one conversion */
+  ADC1->SQR3 = (14<< 0); /* set order to chn14 */
+  ADC1->SMPR1 = ( 5<<12); /* sample time (55,5 cycles) */
+  ADC1->CR1 = 0x00000100; /* independant mode, SCAN mode */
+  ADC1->CR2 = 0x000E0003; /* data align right */
+  /* continuous conversion */
+  /* EXTSEL = SWSTART */
+  /* enable ADC */
+  ADC1->CR2 |= 0x00000008; /* Reset calibration */
+  while (ADC1->CR2 & 0x00000008);
+  ADC1->CR2 |= 0x00000004; /* Start calibration */
+  while (ADC1->CR2 & 0x00000004);
+  ADC1->CR2 |= 0x00500000; /* start SW conversion */ 
 }
 
 
@@ -148,12 +169,13 @@ static void upd_display () {
 
 /*--------------------------- get_adc ---------------------------------------*/
 
-U32 get_adc(void) {
+U16 get_adc(void) {
   /* Get ADC Value. */
 
-  U32 adc_value = 1024;
+  //U32 adc_value = 1024;
+  U16	adcValue = (ADC1->DR & 0x0FFF); /* AD value (12 bit) */
 
-  return (adc_value);
+  return (adcValue);
 }
 
 

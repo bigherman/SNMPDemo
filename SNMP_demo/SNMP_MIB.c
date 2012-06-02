@@ -16,7 +16,7 @@ extern U8   get_button (void);
 extern void LED_out (U32 val);
 extern BOOL LCDupdate;
 extern U8   lcd_text[2][16+1];
-extern U32 	get_adc(void);
+extern U16 	get_adc(void);
 
 /* System */
 extern U32  snmp_SysUpTime;
@@ -24,7 +24,7 @@ extern U32  snmp_SysUpTime;
 /* Local variables */
 static U8   LedOut;
 static U8   KeyIn;
-static U32	AdcIn;
+static U16	AdcIn;
 
 /* MIB Read Only integer constants */
 static const U8 sysServices = 79;
