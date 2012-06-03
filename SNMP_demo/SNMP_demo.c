@@ -191,6 +191,26 @@ static void init_display () {
   GLCD_DisplayString (3, 4, 1, "SNMP example");
 }
 
+/*---------------------------- send_trap ------------------------------------*/ 
+
+void send_trap_message (void) {
+  /* Send a trap message using MIB entries as per SNMP_MIB.c.*/
+  U16 obj[6];
+
+  /* obj[0] is the number of bound variables in a message,
+  obj[n] where n!=0 is the index for the total MIB table, as laid out in SNMP_MIB.c. */
+  obj[0] = 5;
+  obj[1] = 7;
+  obj[2] = 8;
+  obj[3] = 9;
+  obj[4] = 10;
+  obj[5] = 11;
+
+  /* Use Experimental MIB entries. snmp_trap binds the variables requested in obj[n] to the trap message.
+  Make a Wireshark capture if you don't believe me! ;-)  */
+  snmp_trap (NULL, 6, 3, obj);
+}
+
 
 /*--------------------------- timer_poll ------------------------------------*/
 
@@ -201,6 +221,7 @@ static void timer_poll () {
     /* Timer tick every 100 ms */
     timer_tick ();
     tick  = __TRUE;
+	send_trap_message();
   }
 }
 
